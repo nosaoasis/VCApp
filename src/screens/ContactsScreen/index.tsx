@@ -1,20 +1,45 @@
 import React, {useState, useEffect} from 'react';
-import {View, FlatList, Text, TextInput, StyleSheet} from 'react-native';
+import {useNavigation} from '@react-navigation/native';
+import {
+  View,
+  FlatList,
+  Pressable,
+  Text,
+  TextInput,
+  StyleSheet,
+} from 'react-native';
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import contactsList from '../../../assets/data/contacts.json';
+import RootStackParamList from '../../interface/types';
+
+type ContactsScreenNavigationProp = NativeStackNavigationProp<
+  RootStackParamList,
+  'Contacts'
+>;
 
 const ContactsScreen = () => {
   const [searchInputValue, setSearchInputValue] = useState('');
-  const [contacts, setContacts] = useState(contactsList)
+  const [contacts, setContacts] = useState(contactsList);
 
-  const handleSearchInput = (text:string) => {
+  const navigation = useNavigation<ContactsScreenNavigationProp>();
+
+  const handleSearchInput = (text: string) => {
     // console.log("the value of the input search is", text);
     setSearchInputValue(text);
   };
 
   useEffect(() => {
-    const filteredContacts = contactsList.filter(contact => contact.user_display_name.toLowerCase().includes(searchInputValue.toLowerCase()));
+    const filteredContacts = contactsList.filter(contact =>
+      contact.user_display_name
+        .toLowerCase()
+        .includes(searchInputValue.toLowerCase()),
+    );
     setContacts(filteredContacts);
   }, [searchInputValue]);
+
+  const callUser = (user: string) => {
+    navigation.navigate('Calling', {user});
+  };
 
   return (
     <>
@@ -28,7 +53,9 @@ const ContactsScreen = () => {
         <FlatList
           data={contacts}
           renderItem={({item}) => (
-            <Text style={styles.contactName}>{item.user_display_name}</Text>
+            <Pressable onPress={() => callUser(item.user_display_name)}>
+              <Text style={styles.contactName}>{item.user_display_name}</Text>
+            </Pressable>
           )}
           ItemSeparatorComponent={() => <View style={styles.seperator}></View>}
         />
@@ -39,7 +66,9 @@ const ContactsScreen = () => {
 
 const styles = StyleSheet.create({
   page: {
+    flex: 1,
     padding: 15,
+    // backgroundColor: 'green'
   },
   searchInput: {
     backgroundColor: '#000',

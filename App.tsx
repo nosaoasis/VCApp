@@ -12,40 +12,17 @@ import {
   StatusBar,
   useColorScheme,
 } from 'react-native';
+import { enableScreens } from 'react-native-screens';
+enableScreens();
+
 
 import {Colors} from 'react-native/Libraries/NewAppScreen';
 import ContactsScreen from './src/screens/ContactsScreen';
 import CallingScreen from './src/screens/CallingScreen';
+import IncomingCallScreen from './src/screens/IncomingCallScreen';
+import CallScreen from './src/screens/CallScreen';
 
-// type SectionProps = PropsWithChildren<{
-//   title: string;
-// }>;
-
-// function Section({children, title}: SectionProps): React.JSX.Element {
-//   const isDarkMode = useColorScheme() === 'dark';
-//   return (
-//     <View style={styles.sectionContainer}>
-//       <Text
-//         style={[
-//           styles.sectionTitle,
-//           {
-//             color: isDarkMode ? Colors.white : Colors.black,
-//           },
-//         ]}>
-//         {title}
-//       </Text>
-//       <Text
-//         style={[
-//           styles.sectionDescription,
-//           {
-//             color: isDarkMode ? Colors.light : Colors.dark,
-//           },
-//         ]}>
-//         {children}
-//       </Text>
-//     </View>
-//   );
-// }
+import Navigation from './src/Navigation';
 
 function App(): React.JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
@@ -54,17 +31,20 @@ function App(): React.JSX.Element {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
   };
 
-  // const contacts = ['Nosa', 'Gema', 'Slimper'];
-
   return (
-    <SafeAreaView>
+    <>
       <StatusBar
         barStyle={isDarkMode ? 'light-content' : 'dark-content'}
         backgroundColor={backgroundStyle.backgroundColor}
-      />
+        />
       {/* <ContactsScreen /> */}
-      <CallingScreen />
-    </SafeAreaView>
+      {/* <CallingScreen /> */}
+      {/* <IncomingCallScreen /> */}
+      {/* <CallScreen /> */}
+      <Navigation />
+    </>
+        // <SafeAreaView>
+    // </SafeAreaView>
   );
 }
 
